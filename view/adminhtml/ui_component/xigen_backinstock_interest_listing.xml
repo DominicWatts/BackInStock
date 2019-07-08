@@ -54,7 +54,7 @@
             <action name="delete">
                 <settings>
                     <confirm>
-                        <message translate="true">Are you sure you want to delete the testimonial entries?</message>
+                        <message translate="true">Are you sure you want to delete the interest entries?</message>
                         <title translate="true">Delete items</title>
                     </confirm>
                     <url path="*/*/massDelete"/>
@@ -150,19 +150,7 @@
         <column name="name">
             <settings>
                 <filter>text</filter>
-                <label translate="true">Name</label>
-                <editor>
-                    <editorType>text</editorType>
-                    <validation>
-                        <rule name="required-entry" xsi:type="boolean">false</rule>
-                    </validation>
-                </editor>
-            </settings>
-        </column>
-        <column name="product_name">
-            <settings>
-                <filter>text</filter>
-                <label translate="true">Product Name</label>
+                <label translate="true">Firstname</label>
                 <editor>
                     <editorType>text</editorType>
                     <validation>
@@ -175,6 +163,18 @@
             <settings>
                 <filter>text</filter>
                 <label translate="true">Lastname</label>
+                <editor>
+                    <editorType>text</editorType>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">false</rule>
+                    </validation>
+                </editor>
+            </settings>
+        </column>        
+        <column name="product_name">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Product Name</label>
                 <editor>
                     <editorType>text</editorType>
                     <validation>
@@ -195,7 +195,7 @@
                 <label translate="true">Updated At</label>
             </settings>
         </column>
-        <column name="has_notified">
+        <column name="has_notified" component="Magento_Ui/js/grid/columns/select">
             <settings>
                 <options class="Magento\Config\Model\Config\Source\Yesno"/>
                 <filter>select</filter>

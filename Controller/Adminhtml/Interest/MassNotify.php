@@ -1,4 +1,5 @@
 <?php
+
 namespace Xigen\BackInStock\Controller\Adminhtml\Interest;
 
 /**

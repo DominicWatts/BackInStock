@@ -32,6 +32,11 @@ class BackInStock extends Command
     protected $dateTime;
 
     /**
+     * @var \Xigen\BackInStock\Helper\Data
+     */
+    protected $helper;
+
+    /**
      * @var \Symfony\Component\Console\Input\InputInterface
      */
     protected $input;
@@ -50,11 +55,13 @@ class BackInStock extends Command
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\App\State $state,
-        \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateTime,
+        \Xigen\BackInStock\Helper\Data $helper
     ) {
         $this->logger = $logger;
         $this->state = $state;
         $this->dateTime = $dateTime;
+        $this->helper = $helper;
         parent::__construct();
     }
 
@@ -72,15 +79,15 @@ class BackInStock extends Command
         $check = $input->getArgument(self::CHECK_ARGUMENT) ?: false;
         if ($check) {
             $this->output->writeln((string) __('%1 Start Notification Process', $this->dateTime->gmtDate()));
-
+            $this->helper->notifyInterests();
             $this->output->writeln((string) __('%1 End Notification Process', $this->dateTime->gmtDate()));
         }
     }
 
     /**
-    * {@inheritdoc}
-    * xigen:backinstock:check [--] <check>
-    */
+     * {@inheritdoc}
+     * xigen:backinstock:check [--] <check>
+     */
     protected function configure()
     {
         $this->setName('xigen:backinstock:check');
