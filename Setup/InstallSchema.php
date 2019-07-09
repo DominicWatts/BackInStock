@@ -73,6 +73,14 @@ class InstallSchema implements InstallSchemaInterface
         );
 
         $table_xigen_backinstock_interest->addColumn(
+            'store_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+            null,
+            ['default' => '1','nullable' => false,'unsigned' => true],
+            'Store Id'
+        );
+
+        $table_xigen_backinstock_interest->addColumn(
             'created_at',
             \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
             null,

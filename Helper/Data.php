@@ -137,6 +137,7 @@ class Data extends AbstractHelper
                                 'email' => $check->getEmail(),
                                 'productname' => $product->getName(),
                                 'productlink' => $product->getProductUrl(),
+                                'store' => $check->getStoreId()
                             ]);
                             $check->setHasNotified(self::CUSTOMER_HAS_NOTIFIED);
                             $save = true;
@@ -168,6 +169,7 @@ class Data extends AbstractHelper
     public function sendTransactionalEmail($vars = [])
     {
         $email = $vars['email'] ?? null;
+        $storeId = $vars['store'] ?? 1;
 
         if (empty($vars) || !$email) {
             return;
@@ -193,7 +195,7 @@ class Data extends AbstractHelper
             )->setTemplateOptions(
                 [
                     'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                    'store' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
+                    'store' => $storeId,
                 ]
             )->setTemplateVars(
                 [
