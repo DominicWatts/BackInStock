@@ -1,0 +1,110 @@
+<?php
+// @codingStandardsIgnoreFile
+/** @var $block \Magento\Catalog\Block\Product\View */
+?>
+<?php $_product = $block->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php if ($_product->isSaleable()): ?>
+<div class="box-tocart">
+    <div class="fieldset">
+        <?php if ($block->shouldRenderQuantity()): ?>
+        <div class="field qty">
+            <label class="label" for="qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+            <div class="control">
+                <input type="number"
+                       name="qty"
+                       id="qty"
+                       value="<?= $block->escapeHtmlAttr($block->getProductDefaultQty() * 1) ?>"
+                       title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                       class="input-text qty"
+                       data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+                       />
+            </div>
+        </div>
+        <?php endif; ?>
+        <div class="actions">
+            <button type="submit"
+                    title="<?= $block->escapeHtmlAttr($buttonTitle) ?>"
+                    class="action primary tocart"
+                    id="product-addtocart-button">
+                <span><?= $block->escapeHtml($buttonTitle) ?></span>
+            </button>
+            <?= $block->getChildHtml('', true) ?>
+        </div>
+    </div>
+</div>
+<?php else: ?>
+
+<fieldset class="fieldset">
+    <legend class="legend"><span><?= $block->escapeHtml(__("This item is out of stock")); ?></span></legend><br />
+    <div class="field note no-label">
+        <?= $block->escapeHtml(__("Register your interest below and we will contact you when the item is back in stock")); ?>
+    </div>
+    <div class="field name required">
+        <label class="label" for="name"><span><?= $block->escapeHtml(__('Name')) ?></span></label>
+        <div class="control">
+            <input name="interest-name" id="interest-name" title="<?= $block->escapeHtmlAttr(__('Name')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('name') ?: $this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+        </div>
+    </div>
+    <div class="field email required">
+        <label class="label" for="email"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+        <div class="control">
+            <input name="interest-email" id="interest-email" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('email') ?: $this->helper('Magento\Contact\Helper\Data')->getUserEmail()) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
+        </div>
+    </div>
+</fieldset>
+<div class="actions-toolbar">
+    <div class="primary">
+        <input name="interest-product-id" id="interest-product-id" type="hidden" value="<?= $_product->getId(); ?>">
+        <button id="register-interest" type="button" title="<?= $block->escapeHtmlAttr(__('Submit')) ?>" class="action primary">
+            <span><?= $block->escapeHtml(__('Submit')) ?></span>
+        </button>
+    </div>
+</div>
+
+<br>
+
+<div id="register-interest-message">
+    
+</div>
+
+<br>
+
+<script type="text/javascript">
+    require(["jquery"], function($) {
+        $(document).ready(function() {
+            $("#register-interest").click(function() {
+                if ($('#product_addtocart_form').valid()) {
+                    var interestUrl = "<?= $block->getUrl('interest/index/submit', ['form_key' => $block->getFormKey()])?>",
+                        interestName =  $("#interest-name").val(),
+                        interestEmail =  $("#interest-email").val(),
+                        interestProduct =  $("#interest-product-id").val();
+                    $.ajax({
+                        url: interestUrl,
+                        type: 'POST',
+                        dataType: 'json',
+                        showLoader: true,
+                        data: {
+                            name: interestName,
+                            email: interestEmail,
+                            productId: interestProduct
+                        },
+                    }).done(function (response) {                        
+                        $("#register-interest-message").html(response.message);
+                    }).fail(function (response) {
+                        // console.log('Error. Try again.');
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>

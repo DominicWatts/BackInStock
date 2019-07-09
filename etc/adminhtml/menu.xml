@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Xigen_BackInStock::top_level" module="Xigen_BackInStock" resource="Magento_Backend::content" sortOrder="100" title="Xigen" parent="Magento_Backend::marketing" />
+        <add action="xigen_backinstock/interest/index" id="Xigen_BackInStock::xigen_backinstock_interest" module="Xigen_BackInStock" parent="Xigen_BackInStock::top_level" resource="Magento_Backend::content" sortOrder="500" title="Back in Stock Interest"/>
+    </menu>
+</config>

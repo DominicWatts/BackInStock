@@ -1,0 +1,143 @@
+<?xml version="1.0" ?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">xigen_backinstock_interest_form.interest_form_data_source</item>
+        </item>
+        <item name="label" translate="true" xsi:type="string">General Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button class="Xigen\BackInStock\Block\Adminhtml\Interest\Edit\BackButton" name="back"/>
+            <button class="Xigen\BackInStock\Block\Adminhtml\Interest\Edit\DeleteButton" name="delete"/>
+            <button class="Xigen\BackInStock\Block\Adminhtml\Interest\Edit\SaveButton" name="save"/>
+            <button class="Xigen\BackInStock\Block\Adminhtml\Interest\Edit\SaveAndContinueButton" name="save_and_continue"/>
+        </buttons>
+        <namespace>xigen_backinstock_interest_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>xigen_backinstock_interest_form.interest_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="interest_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="*/*/save"/>
+        </settings>
+        <dataProvider class="Xigen\BackInStock\Model\Interest\DataProvider" name="interest_form_data_source">
+            <settings>
+                <requestFieldName>interest_id</requestFieldName>
+                <primaryFieldName>interest_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label/>
+        </settings>
+        <field formElement="input" name="product_id" sortOrder="10">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Interest</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Product ID</label>
+                <dataScope>product_id</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field formElement="input" name="email" sortOrder="20">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Interest</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Email</label>
+                <dataScope>email</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field formElement="input" name="name" sortOrder="30">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Interest</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Firstname</label>
+                <dataScope>name</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                </validation>
+            </settings>
+        </field>
+        <field formElement="input" name="lastname" sortOrder="50">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Interest</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Lastname</label>
+                <dataScope>lastname</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="storeviews" formElement="multiselect">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">block</item>
+                    <item name="default" xsi:type="number">0</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>int</dataType>
+                <label translate="true">Store View</label>
+                <dataScope>store_id</dataScope>
+            </settings>
+            <formElements>
+                <multiselect>
+                    <settings>
+                        <options class="Magento\Cms\Ui\Component\Listing\Column\Cms\Options"/>
+                    </settings>
+                </multiselect>
+            </formElements>
+        </field>
+        <field formElement="select" name="has_notified" sortOrder="80">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Interest</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Has Notified</label>
+                <dataScope>has_notified</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                </validation>
+            </settings>
+</field>
+    </fieldset>
+</form>

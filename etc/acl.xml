@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Xigen_BackInStock::Interest" sortOrder="10" title="Interest">
+                    <resource id="Xigen_BackInStock::Interest_save" sortOrder="10" title="Save Interest"/>
+                    <resource id="Xigen_BackInStock::Interest_delete" sortOrder="20" title="Delete Interest"/>
+                    <resource id="Xigen_BackInStock::Interest_update" sortOrder="30" title="Update Interest"/>
+                    <resource id="Xigen_BackInStock::Interest_view" sortOrder="40" title="View Interest"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>
