@@ -38,13 +38,15 @@ class Submit extends \Magento\Framework\App\Action\Action
         \Magento\Framework\Json\Helper\Data $jsonHelper,
         \Psr\Log\LoggerInterface $logger,
         \Xigen\BackInStock\Model\InterestFactory $interestFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->jsonHelper = $jsonHelper;
         $this->logger = $logger;
         $this->interestFactory = $interestFactory;
         $this->storeManager = $storeManager;
+        $this->formKeyValidator = $formKeyValidator;
         parent::__construct($context);
     }
 
@@ -54,9 +56,17 @@ class Submit extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
+        $request = $this->getRequest();
+
         try {
-            $request = $this->getRequest();
-            
+            if (!$request->isPost() ||
+                !$this->isAjax() ||
+                !$this->formKeyValidator->validate($request)) {
+                throw new \Magento\Framework\Exception\LocalizedException(
+                    __("There was a problem with your submission. Please try again.")
+                );
+            }
+
             $name = $request->getPostValue('name');
             $email = $request->getPostValue('email');
             $productId = $request->getPostValue('productId');
@@ -91,6 +101,17 @@ class Submit extends \Magento\Framework\App\Action\Action
                 'message' => '<strong>' . __($e->getMessage()) . '</strong>'
             ]);
         }
+    }
+
+    /*
+     *  Check Request is Ajax or not
+     * @return boolean
+     * */
+    protected function isAjax()
+    {
+        $request = $this->getRequest();
+        return $request->getServer('HTTP_X_REQUESTED_WITH') &&
+               $request->getServer('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest';
     }
 
     /**
@@ -129,7 +150,7 @@ class Submit extends \Magento\Framework\App\Action\Action
         }
 
         if (!$name || !$email || !$productId || $error) {
-            throw new \Exception(__("Problem with submitted data"));
+            throw new \Magento\Framework\Exception\LocalizedException(__("Problem with submitted data"));
         }
     }
 

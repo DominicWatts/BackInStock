@@ -14,8 +14,12 @@ Customers can register their interest for products when they are out of stock. A
 
 Form will appear on product page where customer can register interest.
 
+![Product screenshot](https://i.snag.gy/ZdcMSq.jpg)
+
 Managed within admin
   -  Marketing > Back In Stock Interest
+
+![Admin screenshot](https://i.snag.gy/ctiJ0F.jpg)
 
 Process to send emails is either cron based on can be triggered by console command.
 
@@ -24,3 +28,4 @@ Process to send emails is either cron based on can be triggered by console comma
 `php bin/magento xigen:backinstock:check check`
 
 Or alternatively allow cron task to run
+
