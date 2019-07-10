@@ -9,25 +9,27 @@
 
 {{template config_path="design/email/header_template"}}
 
-<p class="greeting">{{trans "%firstname," name=$Firstname}}</p>
+<p class="greeting">{{trans "%firstname," firstname=$firstname}}</p>
 <p>
-    {{trans "The product you have registered an interest in is now back in stock." storeName=$storeName}}.
+    {{trans "The product you have registered an interest in is now back in stock"}}
 </p>
 
-{{depend productname}}
 <table class="message-info">
+    {{depend productname}}
     <tr>
         <td>
             {{trans "%productname is now back in stock" productname=$productname}}</h3>
         </td>
-        {{depend productlink}}
+    </tr>
+    {{/depend}}
+    {{depend productlink}}
+    <tr>
         <td>
             {{var productlink|raw}}
         </td>
-        {{/depend}}
     </tr>
+    {{/depend}}
 </table>
 <br />
-{{/depend}}
 
 {{template config_path="design/email/footer_template"}}
