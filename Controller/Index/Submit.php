@@ -23,9 +23,24 @@ class Submit extends \Magento\Framework\App\Action\Action
     protected $logger;
 
     /**
+     * @var \Xigen\BackInStock\Api\Data\InterestInterfaceFactory
+     */
+    protected $interestInterfaceFactory;
+
+    /**
+     * @var \Xigen\BackInStock\Api\InterestRepositoryInterface
+     */
+    protected $interestRepositoryInterface;
+
+    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
+
+    /**
+     * @var \Magento\Framework\Data\Form\FormKey\Validator
+     */
+    protected $formKeyValidator;
 
     /**
      * Constructor
@@ -37,14 +52,16 @@ class Submit extends \Magento\Framework\App\Action\Action
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Framework\Json\Helper\Data $jsonHelper,
         \Psr\Log\LoggerInterface $logger,
-        \Xigen\BackInStock\Model\InterestFactory $interestFactory,
+        \Xigen\BackInStock\Api\Data\InterestInterfaceFactory $interestInterfaceFactory,
+        \Xigen\BackInStock\Api\InterestRepositoryInterface $interestRepositoryInterface,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->jsonHelper = $jsonHelper;
         $this->logger = $logger;
-        $this->interestFactory = $interestFactory;
+        $this->interestInterfaceFactory = $interestInterfaceFactory;
+        $this->interestRepositoryInterface = $interestRepositoryInterface;
         $this->storeManager = $storeManager;
         $this->formKeyValidator = $formKeyValidator;
         parent::__construct($context);
@@ -77,13 +94,15 @@ class Submit extends \Magento\Framework\App\Action\Action
             $lastname = array_pop($parts);
             $firstname = implode(" ", $parts);
             
-            $model = $this->interestFactory->create();
-            $model->setEmail($email);
-            $model->setName($firstname);
-            $model->setLastname($lastname);
-            $model->setProductId($productId);
-            $model->setStoreId($this->getStoreId());
-            $model->save();
+            $model = $this->interestInterfaceFactory
+                ->create()
+                ->setEmail($email)
+                ->setName($firstname ?: $lastname)
+                ->setLastname($lastname)
+                ->setProductId($productId)
+                ->setStoreId($this->getStoreId());
+            
+            $model = $this->interestRepositoryInterface->save($model);
 
             return $this->jsonResponse([
                 'success' => true,

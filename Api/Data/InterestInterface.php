@@ -17,6 +17,7 @@ interface InterestInterface extends \Magento\Framework\Api\ExtensibleDataInterfa
     const INTEREST_ID = 'interest_id';
     const CREATED_AT = 'created_at';
     const HAS_NOTIFIED = 'has_notified';
+    const STORE_ID = 'store_id';
 
     /**
      * Get interest_id
@@ -149,4 +150,17 @@ interface InterestInterface extends \Magento\Framework\Api\ExtensibleDataInterfa
      * @return \Xigen\BackInStock\Api\Data\InterestInterface
      */
     public function setHasNotified($hasNotified);
+
+    /**
+     * Get store_id
+     * @return string|null
+     */
+    public function getStoreId();
+
+    /**
+     * Set store_id
+     * @param string $storeId
+     * @return \Xigen\BackInStock\Api\Data\InterestInterface
+     */
+    public function setStoreId($storeId);
 }
