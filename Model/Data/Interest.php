@@ -201,4 +201,23 @@ class Interest extends \Magento\Framework\Api\AbstractExtensibleObject implement
     {
         return $this->setData(self::HAS_NOTIFIED, $hasNotified);
     }
+
+    /**
+     * Get store_id
+     * @return string|null
+     */
+    public function getStoreId()
+    {
+        return $this->_get(self::STORE_ID);
+    }
+
+    /**
+     * Set store_id
+     * @param string $storeId
+     * @return \Xigen\BackInStock\Api\Data\InterestInterface
+     */
+    public function setStoreId($storeId)
+    {
+        return $this->setData(self::STORE_ID, $storeId);
+    }
 }
