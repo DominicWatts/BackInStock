@@ -138,6 +138,6 @@
                     <rule name="required-entry" xsi:type="boolean">false</rule>
                 </validation>
             </settings>
-</field>
+        </field>
     </fieldset>
 </form>
