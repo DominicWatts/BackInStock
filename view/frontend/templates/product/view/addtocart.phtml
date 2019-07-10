@@ -78,7 +78,8 @@
                     var interestUrl = "<?= $block->getUrl('interest/index/submit', ['form_key' => $block->getFormKey()])?>",
                         interestName =  $("#interest-name").val(),
                         interestEmail =  $("#interest-email").val(),
-                        interestProduct =  $("#interest-product-id").val();
+                        interestProduct =  $("#interest-product-id").val(),
+                        formKey = $.mage.cookies.get('form_key');
                     $.ajax({
                         url: interestUrl,
                         type: 'POST',
@@ -87,7 +88,8 @@
                         data: {
                             name: interestName,
                             email: interestEmail,
-                            productId: interestProduct
+                            productId: interestProduct,
+                            form_key: formKey
                         },
                     }).done(function (response) {                        
                         $("#register-interest-message").html(response.message);
