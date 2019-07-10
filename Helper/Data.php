@@ -16,6 +16,8 @@ class Data extends AbstractHelper
 
     const XML_PATH_EMAIL_TEMPLATE = 'backinstock/email/template';
     const XML_PATH_EMAIL_IDENTITY = 'backinstock/email/email_identity';
+    const XML_PATH_EMAIL_SENDER_NAME = 'trans_email/ident_general/name';
+    const XML_PATH_EMAIL_SENDER_EMAIL = 'trans_email/ident_general/email';
 
     /**
      * @var \Psr\Log\LoggerInterface
@@ -166,6 +168,11 @@ class Data extends AbstractHelper
         } while ($currentPage <= $pages);
     }
 
+    /**
+     * Send transactional email
+     * @param array $vars
+     * @return void
+     */
     public function sendTransactionalEmail($vars = [])
     {
         $email = $vars['email'] ?? null;
@@ -179,12 +186,7 @@ class Data extends AbstractHelper
         try {
             $postObject = new \Magento\Framework\DataObject();
             $postObject->setData($vars);
-  
-            $recipient = [
-                'firstname' => $this->escaper->escapeHtml($vars['firstname']),
-                'email' => $this->escaper->escapeHtml($vars['email']),
-            ];
- 
+   
             $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
             
             $this->transportBuilder->setTemplateIdentifier(
@@ -206,13 +208,19 @@ class Data extends AbstractHelper
                     'productlink' => $vars['productlink'] ?? null
                 ]
             )->setFrom(
-                $this->scopeConfig->getValue(
-                    self::XML_PATH_EMAIL_IDENTITY,
-                    $storeScope
-                )
+                [
+                    'email' => $this->scopeConfig->getValue(
+                        self::XML_PATH_EMAIL_SENDER_EMAIL,
+                        $storeScope
+                    ),
+                    'name' => $this->scopeConfig->getValue(
+                        self::XML_PATH_EMAIL_SENDER_NAME,
+                        $storeScope
+                    ),
+                ]
             )->addTo(
-                $recipient['email'],
-                $recipient['firstname']
+                $this->escaper->escapeHtml($vars['email']),
+                $this->escaper->escapeHtml($vars['firstname'])
             );
  
             $transport = $this->transportBuilder->getTransport();
