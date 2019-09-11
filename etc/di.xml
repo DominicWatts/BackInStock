@@ -19,7 +19,7 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="BackInStock" xsi:type="object">Xigen\BackInStock\Console\Command\BackInStock</item>
+                <item name="BackInStock_BackInStock" xsi:type="object">Xigen\BackInStock\Console\Command\BackInStock</item>
             </argument>
         </arguments>
     </type>
