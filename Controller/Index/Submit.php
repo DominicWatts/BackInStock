@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable Magento2.Exceptions.ThrowCatch
+
 namespace Xigen\BackInStock\Controller\Index;
 
 /**

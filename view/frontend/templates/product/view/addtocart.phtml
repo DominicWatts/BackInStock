@@ -1,13 +1,14 @@
 <?php
-// @codingStandardsIgnoreFile
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
 /** @var $block \Magento\Catalog\Block\Product\View */
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
-<?php if ($_product->isSaleable()): ?>
+<?php if ($_product->isSaleable()) : ?>
 <div class="box-tocart">
     <div class="fieldset">
-        <?php if ($block->shouldRenderQuantity()): ?>
+        <?php if ($block->shouldRenderQuantity()) : ?>
         <div class="field qty">
             <label class="label" for="qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
             <div class="control">
@@ -33,7 +34,7 @@
         </div>
     </div>
 </div>
-<?php else: ?>
+<?php else : ?>
 
 <fieldset class="fieldset">
     <legend class="legend"><span><?= $block->escapeHtml(__("This item is out of stock")); ?></span></legend><br />
@@ -43,19 +44,31 @@
     <div class="field name required">
         <label class="label" for="name"><span><?= $block->escapeHtml(__('Name')) ?></span></label>
         <div class="control">
-            <input name="interest-name" id="interest-name" title="<?= $block->escapeHtmlAttr(__('Name')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('name') ?: $this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+            <input name="interest-name"
+                   id="interest-name"
+                   title="<?= $block->escapeHtmlAttr(__('Name')) ?>"
+                   value="<?= $block->escapeHtmlAttr($this->helper(Magento\Contact\Helper\Data::class)->getPostValue('name') ?: $this->helper(Magento\Contact\Helper\Data::class)->getUserName()) ?>"
+                   class="input-text"
+                   type="text"
+                   data-validate="{required:true}"/>
         </div>
     </div>
     <div class="field email required">
         <label class="label" for="email"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
         <div class="control">
-            <input name="interest-email" id="interest-email" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('email') ?: $this->helper('Magento\Contact\Helper\Data')->getUserEmail()) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
+            <input name="interest-email"
+                   id="interest-email"
+                   title="<?= $block->escapeHtmlAttr(__('Email')) ?>"
+                   value="<?= $block->escapeHtmlAttr($this->helper(Magento\Contact\Helper\Data::class)->getPostValue('email') ?: $this->helper(Magento\Contact\Helper\Data::class)->getUserEmail()) ?>"
+                   class="input-text"
+                   type="email"
+                   data-validate="{required:true, 'validate-email':true}"/>
         </div>
     </div>
 </fieldset>
 <div class="actions-toolbar">
     <div class="primary">
-        <input name="interest-product-id" id="interest-product-id" type="hidden" value="<?= $_product->getId(); ?>">
+        <input name="interest-product-id" id="interest-product-id" type="hidden" value="<?= $block->escapeHtmlAttr($_product->getId()); ?>">
         <button id="register-interest" type="button" title="<?= $block->escapeHtmlAttr(__('Submit')) ?>" class="action primary">
             <span><?= $block->escapeHtml(__('Submit')) ?></span>
         </button>
@@ -75,7 +88,7 @@
         $(document).ready(function() {
             $("#register-interest").click(function() {
                 if ($('#product_addtocart_form').valid()) {
-                    var interestUrl = "<?= $block->getUrl('interest/index/submit', ['form_key' => $block->getFormKey()])?>",
+                    var interestUrl = "<?= /* @noEscape */ $block->getUrl('interest/index/submit', ['form_key' => $block->getFormKey()])?>",
                         interestName =  $("#interest-name").val(),
                         interestEmail =  $("#interest-email").val(),
                         interestProduct =  $("#interest-product-id").val(),

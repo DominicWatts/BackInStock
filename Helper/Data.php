@@ -65,7 +65,17 @@ class Data extends AbstractHelper
     protected $escaper;
 
     /**
+     * Data constructor.
      * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface
+     * @param \Xigen\BackInStock\Model\InterestFactory $interestFactory
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockItem
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Escaper $escaper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -153,7 +163,7 @@ class Data extends AbstractHelper
                     $check->setHasNotified(self::CUSTOMER_FAIL_NOTIFIED);
                     $save = true;
                 }
-                
+
                 if ($save) {
                     try {
                         $check->save();
@@ -186,9 +196,9 @@ class Data extends AbstractHelper
         try {
             $postObject = new \Magento\Framework\DataObject();
             $postObject->setData($vars);
-   
+
             $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-            
+
             $this->transportBuilder->setTemplateIdentifier(
                 $this->scopeConfig->getValue(
                     self::XML_PATH_EMAIL_TEMPLATE,
@@ -222,12 +232,12 @@ class Data extends AbstractHelper
                 $this->escaper->escapeHtml($vars['email']),
                 $this->escaper->escapeHtml($vars['firstname'])
             );
- 
+
             $transport = $this->transportBuilder->getTransport();
             $transport->sendMessage();
 
             $this->inlineTranslation->resume();
-            
+
             return true;
         } catch (Exception $e) {
             $this->logger->critical($e);
