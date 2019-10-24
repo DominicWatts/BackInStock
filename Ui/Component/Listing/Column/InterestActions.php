@@ -16,7 +16,6 @@ class InterestActions extends \Magento\Ui\Component\Listing\Columns\Column
      * @var \Magento\Framework\UrlInterface
      */
     protected $urlBuilder;
-    
 
     /**
      * @param \Magento\Framework\View\Element\UiComponent\ContextInterface $context
