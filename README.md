@@ -1,4 +1,4 @@
-# Mahento 2 Back In Stock # 
+# Magento 2 Back In Stock # 
 
 Customers can register their interest for products when they are out of stock. An automated process periodically checks the requests and the customer will be sent a personalised email when the product comes back in stock.
 
